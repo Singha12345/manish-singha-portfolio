@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manish Singha – Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8D48A;
+    --dark: #0D0D0D;
+    --dark2: #161616;
+    --dark3: #1E1E1E;
+    --dark4: #2A2A2A;
+    --text: #E8E8E8;
+    --muted: #888;
+    --accent: #C9A84C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    background: linear-gradient(135deg, var(--dark2) 0%, #1a1500 100%);
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+    padding: 60px 40px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute;
+    top: -100px; right: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+  }
+  .avatar {
+    width: 130px; height: 130px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+    object-fit: cover;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--dark4);
+    font-size: 48px;
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar:hover .avatar-overlay { opacity: 1; }
+  .avatar-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: 0.2s;
+    font-size: 12px; color: var(--gold); font-family: 'DM Sans'; text-align: center;
+  }
+  .header-info { flex: 1; }
+  .header-info h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+  }
+  .header-info h1 span { color: var(--gold); }
+  .header-tagline {
+    font-size: 15px;
+    color: var(--gold-light);
+    margin-top: 8px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .header-meta {
+    display: flex; flex-wrap: wrap; gap: 16px;
+    margin-top: 20px;
+  }
+  .meta-item {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--muted);
+  }
+  .meta-item svg { color: var(--gold); }
+  .meta-item a { color: var(--gold); text-decoration: none; }
+  .meta-item a:hover { text-decoration: underline; }
+  .edit-header-btn {
+    position: absolute; top: 20px; right: 20px;
+    background: rgba(201,168,76,0.15); border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold); padding: 8px 16px; border-radius: 6px;
+    cursor: pointer; font-family: 'DM Sans'; font-size: 13px;
+    transition: 0.2s;
+  }
+  .edit-header-btn:hover { background: rgba(201,168,76,0.25); }
+
+  /* ===== NAV ===== */
+  nav {
+    background: var(--dark2);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; align-items: center;
+    padding: 0 40px;
+    gap: 4px;
+  }
+  .nav-tab {
+    padding: 16px 20px;
+    font-size: 13px; font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: 0.2s;
+    white-space: nowrap;
+  }
+  .nav-tab.active, .nav-tab:hover { color: var(--gold); border-bottom-color: var(--gold); }
+
+  /* ===== MAIN ===== */
+  main {
+    max-width: 1100px; margin: 0 auto;
+    padding: 40px 40px 80px;
+  }
+
+  /* ===== SECTION ===== */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(201,168,76,0.2);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px; font-weight: 700;
+    color: #fff;
+  }
+  .section-title span { color: var(--gold); }
+  .add-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--gold); color: var(--dark);
+    border: none; padding: 10px 20px; border-radius: 8px;
+    cursor: pointer; font-family: 'DM Sans'; font-size: 13px; font-weight: 600;
+    transition: 0.2s;
+  }
+  .add-btn:hover { background: var(--gold-light); }
+
+  /* ===== EXPERIENCE CARD ===== */
+  .exp-card {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 20px;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+  .exp-card:hover { border-color: rgba(201,168,76,0.3); }
+  .exp-card-top {
+    display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+    margin-bottom: 12px;
+  }
+  .exp-company {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--gold); margin-bottom: 4px;
+  }
+  .exp-role {
+    font-size: 18px; font-weight: 600; color: #fff;
+    font-family: 'Playfair Display', serif;
+  }
+  .exp-period {
+    font-size: 12px; color: var(--muted);
+    background: var(--dark4);
+    padding: 4px 10px; border-radius: 20px;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .exp-bullets {
+    list-style: none; margin-top: 12px;
+  }
+  .exp-bullets li {
+    padding: 5px 0 5px 16px;
+    position: relative; font-size: 14px; color: #bbb;
+    line-height: 1.6;
+  }
+  .exp-bullets li::before {
+    content: '';
+    position: absolute; left: 0; top: 13px;
+    width: 5px; height: 5px;
+    background: var(--gold); border-radius: 50%;
+  }
+  .card-actions {
+    display: flex; gap: 8px;
+    opacity: 0; transition: 0.2s;
+  }
+  .exp-card:hover .card-actions { opacity: 1; }
+  .icon-btn {
+    background: rgba(255,255,255,0.07); border: none;
+    color: var(--muted); padding: 6px 10px; border-radius: 6px;
+    cursor: pointer; font-size: 12px; transition: 0.2s;
+    font-family: 'DM Sans';
+  }
+  .icon-btn:hover { background: rgba(201,168,76,0.2); color: var(--gold); }
+  .icon-btn.del:hover { background: rgba(220,50,50,0.2); color: #e55; }
+
+  /* ===== EDUCATION ===== */
+  .edu-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 16px;
+  }
+  .edu-card {
+    background: var(--dark2);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px; padding: 24px;
+    position: relative; transition: border-color 0.2s;
+  }
+  .edu-card:hover { border-color: rgba(201,168,76,0.3); }
+  .edu-degree { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 6px; }
+  .edu-inst { font-size: 13px; color: var(--gold); margin-bottom: 4px; }
+  .edu-year { font-size: 12px; color: var(--muted); }
+  .edu-card .card-actions { position: absolute; top: 12px; right: 12px; }
+  .edu-card:hover .card-actions { opacity: 1; }
+
+  /* ===== SKILLS / CERTIFICATIONS ===== */
+  .tags-container { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .tag {
+    background: var(--dark3);
+    border: 1px solid rgba(201,168,76,0.25);
+    color: var(--gold-light); padding: 6px 14px;
+    border-radius: 20px; font-size: 13px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tag .del-tag {
+    cursor: pointer; color: var(--muted); font-size: 14px; transition: 0.2s;
+    background: none; border: none; line-height: 1;
+  }
+  .tag .del-tag:hover { color: #e55; }
+  .subsection { margin-bottom: 36px; }
+  .subsection-title { font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+
+  /* ===== SUMMARY ===== */
+  .summary-box {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 12px; padding: 32px;
+    font-size: 15px; line-height: 1.8; color: #ccc;
+    position: relative;
+  }
+  .summary-edit-btn {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold); padding: 6px 12px; border-radius: 6px;
+    cursor: pointer; font-size: 12px; font-family: 'DM Sans';
+    transition: 0.2s;
+  }
+  .summary-edit-btn:hover { background: rgba(201,168,76,0.1); }
+  .stats-row {
+    display: flex; flex-wrap: wrap; gap: 24px; margin-top: 24px;
+  }
+  .stat {
+    background: var(--dark3); border-radius: 10px;
+    padding: 20px 28px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.06);
+    flex: 1; min-width: 120px;
+  }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 700; color: var(--gold); }
+  .stat-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ===== MODAL ===== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75); z-index: 200;
+    align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--dark2);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 16px; padding: 36px;
+    width: 100%; max-width: 620px;
+    max-height: 90vh; overflow-y: auto;
+  }
+  .modal h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; color: #fff; margin-bottom: 24px;
+  }
+  .form-row { margin-bottom: 18px; }
+  .form-row label {
+    display: block; font-size: 12px; font-weight: 600;
+    color: var(--muted); text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 6px;
+  }
+  .form-row input, .form-row textarea, .form-row select {
+    width: 100%;
+    background: var(--dark3);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--text); border-radius: 8px;
+    padding: 10px 14px; font-family: 'DM Sans'; font-size: 14px;
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-row input:focus, .form-row textarea:focus {
+    border-color: rgba(201,168,76,0.5);
+  }
+  .form-row textarea { min-height: 140px; resize: vertical; }
+  .modal-btns { display: flex; gap: 10px; justify-content: flex-end; margin-top: 24px; }
+  .btn-cancel {
+    background: var(--dark4); border: 1px solid rgba(255,255,255,0.1);
+    color: var(--muted); padding: 10px 24px; border-radius: 8px;
+    cursor: pointer; font-family: 'DM Sans'; font-size: 14px;
+    transition: 0.2s;
+  }
+  .btn-cancel:hover { color: var(--text); }
+  .btn-save {
+    background: var(--gold); color: var(--dark);
+    border: none; padding: 10px 24px; border-radius: 8px;
+    cursor: pointer; font-family: 'DM Sans'; font-size: 14px; font-weight: 600;
+    transition: 0.2s;
+  }
+  .btn-save:hover { background: var(--gold-light); }
+
+  /* ===== TOAST ===== */
+  .toast {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    background: var(--gold); color: var(--dark);
+    padding: 12px 24px; border-radius: 8px;
+    font-weight: 600; font-size: 14px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 300;
+  }
+  .toast.show { opacity: 1; }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 680px) {
+    header { padding: 40px 20px 36px; }
+    .header-inner { flex-direction: column; gap: 20px; }
+    main { padding: 24px 20px 60px; }
+    .nav-inner { padding: 0 16px; overflow-x: auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="avatar" id="avatarEl" title="MS">MS
+      <div class="avatar-overlay">Click to edit photo</div>
+    </div>
+    <div class="header-info">
+      <div class="header-tagline" id="hTagline">Deputy General Manager · Affordability & Enterprise Sales</div>
+      <h1 id="hName">Manish <span>Singha</span></h1>
+      <div class="header-meta">
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 8.63 19.79 19.79 0 01.17 4 2 2 0 012.16 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+          <span id="hPhone">+91 79747 84231</span>
+        </div>
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <span id="hEmail">ssingha2@gmail.com</span>
+        </div>
+        <div class="meta-item">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <span id="hLocation">Gurugram, India</span>
+        </div>
+        <div class="meta-item">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+          <a id="hLinkedin" href="https://www.linkedin.com/in/manish-singha-8277b336/" target="_blank">LinkedIn Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button class="edit-header-btn" onclick="openHeaderModal()">✏ Edit Profile</button>
+</header>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-tab active" onclick="switchTab('summary',this)">Summary</div>
+    <div class="nav-tab" onclick="switchTab('experience',this)">Experience</div>
+    <div class="nav-tab" onclick="switchTab('education',this)">Education</div>
+    <div class="nav-tab" onclick="switchTab('skills',this)">Skills & Certs</div>
+  </div>
+</nav>
+
+<!-- MAIN CONTENT -->
+<main>
+
+  <!-- SUMMARY TAB -->
+  <div class="section active" id="tab-summary">
+    <div class="section-header">
+      <div class="section-title">Professional <span>Summary</span></div>
+    </div>
+    <div class="summary-box">
+      <button class="summary-edit-btn" onclick="openSummaryModal()">✏ Edit</button>
+      <p id="summaryText">A seasoned fintech and banking professional with 12+ years of experience in Product-led Sales, Partnerships, and Affordability across leading institutions — Paytm, PayU Payments, Kotak Mahindra, HDFC Bank, ICICI Bank, and Yes Bank. Specialised in EMI, BNPL, Consumer Lending, Transaction Banking, and Enterprise Partnerships. Known for driving significant revenue growth, scaling lender partnerships, and launching advanced checkout integrations that improve loan conversions. MBA from SPJIMR, Mumbai with a strong academic foundation in engineering.</p>
+    </div>
+    <div class="stats-row">
+      <div class="stat"><div class="stat-num">12+</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">6</div><div class="stat-label">Companies</div></div>
+      <div class="stat"><div class="stat-num">45+</div><div class="stat-label">Clients Onboarded</div></div>
+      <div class="stat"><div class="stat-num">₹120M+</div><div class="stat-label">Fees Booked</div></div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE TAB -->
+  <div class="section" id="tab-experience">
+    <div class="section-header">
+      <div class="section-title">Work <span>Experience</span></div>
+      <button class="add-btn" onclick="openExpModal()">+ Add Experience</button>
+    </div>
+    <div id="expList"></div>
+  </div>
+
+  <!-- EDUCATION TAB -->
+  <div class="section" id="tab-education">
+    <div class="section-header">
+      <div class="section-title">Education &amp; <span>Qualifications</span></div>
+      <button class="add-btn" onclick="openEduModal()">+ Add Education</button>
+    </div>
+    <div class="edu-grid" id="eduList"></div>
+  </div>
+
+  <!-- SKILLS TAB -->
+  <div class="section" id="tab-skills">
+    <div class="section-header">
+      <div class="section-title">Skills &amp; <span>Certifications</span></div>
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Core Skills</div>
+      <div class="tags-container" id="skillsList"></div>
+      <br>
+      <input id="skillInput" placeholder="Add a skill and press Enter…" onkeydown="addTag(event,'skills')" style="background:var(--dark3);border:1px solid rgba(255,255,255,0.1);color:var(--text);border-radius:8px;padding:8px 14px;font-family:'DM Sans';font-size:13px;outline:none;width:300px;max-width:100%;">
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Certifications</div>
+      <div class="tags-container" id="certsList"></div>
+      <br>
+      <input id="certInput" placeholder="Add a certification and press Enter…" onkeydown="addTag(event,'certs')" style="background:var(--dark3);border:1px solid rgba(255,255,255,0.1);color:var(--text);border-radius:8px;padding:8px 14px;font-family:'DM Sans';font-size:13px;outline:none;width:300px;max-width:100%;">
+    </div>
+    <div class="subsection">
+      <div class="subsection-title">Interests</div>
+      <div class="tags-container" id="interestsList"></div>
+      <br>
+      <input id="interestInput" placeholder="Add an interest and press Enter…" onkeydown="addTag(event,'interests')" style="background:var(--dark3);border:1px solid rgba(255,255,255,0.1);color:var(--text);border-radius:8px;padding:8px 14px;font-family:'DM Sans';font-size:13px;outline:none;width:300px;max-width:100%;">
+    </div>
+  </div>
+
+</main>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="expModal">
+  <div class="modal">
+    <h3 id="expModalTitle">Add Experience</h3>
+    <input type="hidden" id="expEditIdx" value="">
+    <div class="form-row"><label>Company Name</label><input id="expCompany" placeholder="e.g. Paytm Payments Services Ltd"></div>
+    <div class="form-row"><label>Job Title / Role</label><input id="expRole" placeholder="e.g. Deputy General Manager"></div>
+    <div class="form-row"><label>Period</label><input id="expPeriod" placeholder="e.g. AUG'25 – PRESENT"></div>
+    <div class="form-row">
+      <label>Key Responsibilities (one per line)</label>
+      <textarea id="expBullets" placeholder="Leading commercial negotiations…&#10;Driving integration with product teams…"></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('expModal')">Cancel</button>
+      <button class="btn-save" onclick="saveExp()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="eduModal">
+  <div class="modal">
+    <h3 id="eduModalTitle">Add Education</h3>
+    <input type="hidden" id="eduEditIdx" value="">
+    <div class="form-row"><label>Degree / Qualification</label><input id="eduDegree" placeholder="e.g. MBA – Post Graduate Program"></div>
+    <div class="form-row"><label>Institution</label><input id="eduInst" placeholder="e.g. SPJIMR, Mumbai"></div>
+    <div class="form-row"><label>Year(s)</label><input id="eduYear" placeholder="e.g. 2024–2026"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('eduModal')">Cancel</button>
+      <button class="btn-save" onclick="saveEdu()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="headerModal">
+  <div class="modal">
+    <h3>Edit Profile Details</h3>
+    <div class="form-row"><label>Full Name</label><input id="hNameInput"></div>
+    <div class="form-row"><label>Tagline / Current Role</label><input id="hTaglineInput"></div>
+    <div class="form-row"><label>Phone</label><input id="hPhoneInput"></div>
+    <div class="form-row"><label>Email</label><input id="hEmailInput"></div>
+    <div class="form-row"><label>Location</label><input id="hLocationInput"></div>
+    <div class="form-row"><label>LinkedIn URL</label><input id="hLinkedinInput"></div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('headerModal')">Cancel</button>
+      <button class="btn-save" onclick="saveHeader()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="summaryModal">
+  <div class="modal">
+    <h3>Edit Summary</h3>
+    <div class="form-row">
+      <label>Professional Summary</label>
+      <textarea id="summaryInput" style="min-height:200px"></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('summaryModal')">Cancel</button>
+      <button class="btn-save" onclick="saveSummary()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">Saved!</div>
+
+<script>
+// ===== DATA =====
+let data = {
+  header: {
+    name: "Manish Singha",
+    tagline: "Deputy General Manager · Affordability & Enterprise Sales",
+    phone: "+91 79747 84231",
+    email: "ssingha2@gmail.com",
+    location: "Gurugram, India",
+    linkedin: "https://www.linkedin.com/in/manish-singha-8277b336/"
+  },
+  summary: "A seasoned fintech and banking professional with 12+ years of experience in Product-led Sales, Partnerships, and Affordability across leading institutions — Paytm, PayU Payments, Kotak Mahindra, HDFC Bank, ICICI Bank, and Yes Bank. Specialised in EMI, BNPL, Consumer Lending, Transaction Banking, and Enterprise Partnerships. Known for driving significant revenue growth, scaling lender partnerships, and launching advanced checkout integrations that improve loan conversions. MBA from SPJIMR, Mumbai with a strong academic foundation in engineering.",
+  experience: [
+    { company: "Paytm Payments Services Limited", role: "Deputy General Manager (Affordability, Enterprise Sales & Partnerships)", period: "AUG'25 – PRESENT", bullets: ["Leading commercial and product negotiations to co-create high impact affordability propositions (NC/LC EMI, card offers, tenure-based pricing), improving customer adoption and transaction share.", "Driving end-to-end integration readiness with product, risk and engineering teams to ensure seamless Credit Card EMI workflows with higher approval rates.", "Managing key enterprise partners through data-led growth planning, performance reviews, funnel optimization and continuous enhancement of affordability product performance.", "Additionally managing the Travel & Partnerships portfolio from an enterprise sales lens, owning large-account revenue growth and long-term relationships across airlines, hotels, and OTAs."] },
+    { company: "PayU Payments (Gurugram, India)", role: "Associate Director → Senior Manager, Affordability (Product, Strategy & Alliances)", period: "JUL'22 – JUL'25", bullets: ["Drove growth for the Affordability vertical (EMI, BNPL, Consumer Lending) by scaling lender partnerships and boosting checkout loan conversions and disbursements.", "Strengthened strategic partnerships with major card issuers to grow EMI wallet share and expand the lending loan book (card & cardless EMI).", "Launched advanced offer-centric checkout integrations (real-time eligibility, tenure personalization, dynamic interest), driving significant uplift in EMI volumes.", "Worked cross-functionally with sales, marketing, operations, finance, and engineering to enhance product positioning and merchant value.", "Expanded OEM network across Lifestyle, Electronics, Auto-tech, and Insurtech.", "Built deep strategic relationships with top OEMs (Samsung, Panasonic, Motorola, IFB, Dyson, Xiaomi, JBL, Noise) through data-led, offer-driven initiatives."] },
+    { company: "Kotak Mahindra Bank Ltd", role: "Senior Manager, Global Transaction Services", period: "APR'22 – JUL'22", bullets: ["Managed Trade finance, Cash management and Supply chain finance for new-age clients across sectors — Automobile, Infrastructure, Healthcare, Consumer etc.", "Managed key clients incl. PayU, Cars24, ShipRocket, OFB, Spinny, 1MG & Healthkart.", "Implemented customized digital cash management solutions like eCollect, API integration, UPI, Payment Gateway, Positive Pay, digital escrow accounts."] },
+    { company: "Yes Bank Ltd", role: "Senior Manager, Digital Transaction Banking", period: "FEB'20 – APR'22", bullets: ["Onboarded 45+ MNC & E-commerce clients on bank's digital banking platforms in FY21 with CASA of INR 3150Mn leading to a YoY growth of 22% & MoM throughput growth of 10%.", "Managed key clients incl. PayU, Carrier Midea, Cars24, Ecom Express, PropTiger, Squareyard, Winzo Games, EasemyTrip, Yatra.", "Appreciated for exceeding target by booking fee of INR 120 Mn; led deal structuring, front ended mandate & fee.", "Nominated by country head for driving influencer strategy for Startup ecosystem in North region for expedited growth."] },
+    { company: "HDFC Bank Ltd", role: "Manager, Wholesale Banking", period: "MAR'19 – FEB'20", bullets: ["Managed a portfolio of Large Corporates and MNC clients including Reliance group, Tata Consultant Engineers, Mahindra & Mahindra, Aditya Birla group, Sumitomo Chemicals, Heinz Kraft, Zydus Wellness, Marico Ltd.", "Spearheaded end-to-end integration of Public Sector Units (PSUs) on Government E-Marketplace (GEM) enabling bulk orders.", "Won 30+ Dividend Payout mandates including Hindustan Petroleum, Bharat Petroleum, Asian Paints, UPL, Tata Steel, L&T."] },
+    { company: "Kotak Mahindra Bank Ltd", role: "Deputy Manager, Consumer & Commercial Banking", period: "JAN'17 – FEB'19", bullets: ["Solely managed product sales in Consumer business banking segment with over 300 active clients.", "Handled wide range of CMS Collection & Payment solutions such as Escrow, Dividend, Payment Gateway & Nodal accounts.", "Led solutioning of 5+ Payment aggregator/intermediary accounts through customized Nodal and Escrow framework."] },
+    { company: "ICICI Bank Ltd", role: "Deputy Manager, Commercial Banking Group", period: "MAY'14 – DEC'16", bullets: ["Conceptualized and executed transaction banking solutions for large corporates like Vedanta Resources, Cairn India, Ultratech Cement and new-age clients incl. Citrus Pay, Pay1, Secure Parking.", "Onboarded clients on first-in-bank National Automated Clearing House (NACH) platform for enabling auto-debit of collections.", "Nominated by bank to establish a 10 member team to run cost reduction & business excellence initiatives."] }
+  ],
+  education: [
+    { degree: "Post Graduate Program in General Management (MBA) – ongoing", inst: "SP Jain Institute of Mgmt. & Research, Mumbai", year: "2024–2026" },
+    { degree: "Post Graduate Diploma in Banking & Finance (PGDB)", inst: "Manipal University, Bangalore", year: "2013–2014" },
+    { degree: "Bachelor of Engineering (B.E.) – Industrial Production Engineering", inst: "Manipal Institute of Technology", year: "2009–2013" },
+    { degree: "12th – ICSE Board", inst: "Loyola High School, Jamshedpur", year: "2008" },
+    { degree: "10th – ICSE Board", inst: "Loyola High School, Jamshedpur", year: "2006" }
+  ],
+  skills: ["EMI / BNPL / Consumer Lending", "Enterprise Sales", "Strategic Partnerships", "Product Strategy", "Transaction Banking", "Cash Management", "Trade Finance", "API Integrations", "Checkout Optimization", "Data-led Growth", "OEM Partnerships", "Design Thinking", "CMS Solutions"],
+  certs: ["Product Management Certification (Udemy, 2023)", "Agile Product Owner", "Scrum Master"],
+  interests: ["Reading", "Music", "Travel", "Cycling", "Cinema"]
+};
+
+// ===== STORAGE =====
+function save() { try { localStorage.setItem('ms_portfolio', JSON.stringify(data)); } catch(e){} }
+function load() {
+  try {
+    const s = localStorage.getItem('ms_portfolio');
+    if (s) data = JSON.parse(s);
+  } catch(e){}
+}
+load();
+
+// ===== TOAST =====
+function showToast(msg = 'Saved!') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== TAB SWITCH =====
+function switchTab(id, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+// ===== RENDER =====
+function render() {
+  renderHeader();
+  renderSummary();
+  renderExp();
+  renderEdu();
+  renderTags('skills', 'skillsList');
+  renderTags('certs', 'certsList');
+  renderTags('interests', 'interestsList');
+}
+
+function renderHeader() {
+  const h = data.header;
+  const nameEl = document.getElementById('hName');
+  const parts = h.name.split(' ');
+  nameEl.innerHTML = parts.slice(0,-1).join(' ') + ' <span>' + parts[parts.length-1] + '</span>';
+  document.getElementById('hTagline').textContent = h.tagline;
+  document.getElementById('hPhone').textContent = h.phone;
+  document.getElementById('hEmail').textContent = h.email;
+  document.getElementById('hLocation').textContent = h.location;
+  const li = document.getElementById('hLinkedin');
+  li.href = h.linkedin; li.textContent = 'LinkedIn Profile';
+  document.getElementById('avatarEl').childNodes[0].textContent = h.name.split(' ').map(w=>w[0]).join('').slice(0,2);
+}
+
+function renderSummary() {
+  document.getElementById('summaryText').textContent = data.summary;
+}
+
+function renderExp() {
+  const list = document.getElementById('expList');
+  list.innerHTML = data.experience.map((e,i) => `
+    <div class="exp-card">
+      <div class="exp-card-top">
+        <div>
+          <div class="exp-company">${esc(e.company)}</div>
+          <div class="exp-role">${esc(e.role)}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px">
+          <span class="exp-period">${esc(e.period)}</span>
+          <div class="card-actions">
+            <button class="icon-btn" onclick="openExpModal(${i})">✏ Edit</button>
+            <button class="icon-btn del" onclick="delExp(${i})">✕ Delete</button>
+          </div>
+        </div>
+      </div>
+      <ul class="exp-bullets">${e.bullets.map(b=>`<li>${esc(b)}</li>`).join('')}</ul>
+    </div>`).join('');
+}
+
+function renderEdu() {
+  const list = document.getElementById('eduList');
+  list.innerHTML = data.education.map((e,i) => `
+    <div class="edu-card">
+      <div class="card-actions">
+        <button class="icon-btn" onclick="openEduModal(${i})">✏</button>
+        <button class="icon-btn del" onclick="delEdu(${i})">✕</button>
+      </div>
+      <div class="edu-degree">${esc(e.degree)}</div>
+      <div class="edu-inst">${esc(e.inst)}</div>
+      <div class="edu-year">${esc(e.year)}</div>
+    </div>`).join('');
+}
+
+function renderTags(key, elId) {
+  const el = document.getElementById(elId);
+  el.innerHTML = data[key].map((t,i) => `
+    <div class="tag">${esc(t)}<button class="del-tag" onclick="delTag('${key}',${i})">×</button></div>`).join('');
+}
+
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ===== EXPERIENCE MODAL =====
+function openExpModal(idx) {
+  document.getElementById('expModalTitle').textContent = idx !== undefined ? 'Edit Experience' : 'Add Experience';
+  document.getElementById('expEditIdx').value = idx !== undefined ? idx : '';
+  const e = idx !== undefined ? data.experience[idx] : {};
+  document.getElementById('expCompany').value = e.company || '';
+  document.getElementById('expRole').value = e.role || '';
+  document.getElementById('expPeriod').value = e.period || '';
+  document.getElementById('expBullets').value = (e.bullets || []).join('\n');
+  document.getElementById('expModal').classList.add('open');
+}
+function saveExp() {
+  const idx = document.getElementById('expEditIdx').value;
+  const entry = {
+    company: document.getElementById('expCompany').value.trim(),
+    role: document.getElementById('expRole').value.trim(),
+    period: document.getElementById('expPeriod').value.trim(),
+    bullets: document.getElementById('expBullets').value.split('\n').map(s=>s.trim()).filter(Boolean)
+  };
+  if (!entry.company || !entry.role) { alert('Company and Role are required.'); return; }
+  if (idx !== '') data.experience[parseInt(idx)] = entry;
+  else data.experience.unshift(entry);
+  save(); renderExp();
+  closeModal('expModal'); showToast('Experience saved!');
+}
+function delExp(i) {
+  if (!confirm('Delete this experience?')) return;
+  data.experience.splice(i, 1); save(); renderExp(); showToast('Deleted.');
+}
+
+// ===== EDUCATION MODAL =====
+function openEduModal(idx) {
+  document.getElementById('eduModalTitle').textContent = idx !== undefined ? 'Edit Education' : 'Add Education';
+  document.getElementById('eduEditIdx').value = idx !== undefined ? idx : '';
+  const e = idx !== undefined ? data.education[idx] : {};
+  document.getElementById('eduDegree').value = e.degree || '';
+  document.getElementById('eduInst').value = e.inst || '';
+  document.getElementById('eduYear').value = e.year || '';
+  document.getElementById('eduModal').classList.add('open');
+}
+function saveEdu() {
+  const idx = document.getElementById('eduEditIdx').value;
+  const entry = {
+    degree: document.getElementById('eduDegree').value.trim(),
+    inst: document.getElementById('eduInst').value.trim(),
+    year: document.getElementById('eduYear').value.trim()
+  };
+  if (!entry.degree) { alert('Degree is required.'); return; }
+  if (idx !== '') data.education[parseInt(idx)] = entry;
+  else data.education.unshift(entry);
+  save(); renderEdu();
+  closeModal('eduModal'); showToast('Education saved!');
+}
+function delEdu(i) {
+  if (!confirm('Delete this entry?')) return;
+  data.education.splice(i, 1); save(); renderEdu(); showToast('Deleted.');
+}
+
+// ===== HEADER MODAL =====
+function openHeaderModal() {
+  const h = data.header;
+  document.getElementById('hNameInput').value = h.name;
+  document.getElementById('hTaglineInput').value = h.tagline;
+  document.getElementById('hPhoneInput').value = h.phone;
+  document.getElementById('hEmailInput').value = h.email;
+  document.getElementById('hLocationInput').value = h.location;
+  document.getElementById('hLinkedinInput').value = h.linkedin;
+  document.getElementById('headerModal').classList.add('open');
+}
+function saveHeader() {
+  data.header.name = document.getElementById('hNameInput').value.trim();
+  data.header.tagline = document.getElementById('hTaglineInput').value.trim();
+  data.header.phone = document.getElementById('hPhoneInput').value.trim();
+  data.header.email = document.getElementById('hEmailInput').value.trim();
+  data.header.location = document.getElementById('hLocationInput').value.trim();
+  data.header.linkedin = document.getElementById('hLinkedinInput').value.trim();
+  save(); renderHeader();
+  closeModal('headerModal'); showToast('Profile updated!');
+}
+
+// ===== SUMMARY MODAL =====
+function openSummaryModal() {
+  document.getElementById('summaryInput').value = data.summary;
+  document.getElementById('summaryModal').classList.add('open');
+}
+function saveSummary() {
+  data.summary = document.getElementById('summaryInput').value.trim();
+  save(); renderSummary();
+  closeModal('summaryModal'); showToast('Summary updated!');
+}
+
+// ===== TAGS =====
+function addTag(event, key) {
+  if (event.key !== 'Enter') return;
+  const inputId = { skills: 'skillInput', certs: 'certInput', interests: 'interestInput' }[key];
+  const val = document.getElementById(inputId).value.trim();
+  if (!val) return;
+  data[key].push(val);
+  document.getElementById(inputId).value = '';
+  save(); renderTags(key, { skills: 'skillsList', certs: 'certsList', interests: 'interestsList' }[key]);
+}
+function delTag(key, i) {
+  data[key].splice(i, 1); save();
+  renderTags(key, { skills: 'skillsList', certs: 'certsList', interests: 'interestsList' }[key]);
+}
+
+// ===== MODAL CLOSE =====
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o => o.addEventListener('click', e => { if (e.target === o) o.classList.remove('open'); }));
+
+// ===== INIT =====
+render();
+</script>
+</body>
+</html>
